@@ -1,17 +1,89 @@
+import React from 'react';
+import { useFonts } from 'expo-font';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
-
+import { View, Text } from 'react-native';
 import Landing from './src/components/auth/Landing';
+import { RegisterScreen } from './src/components/auth/RegisterScreen';
+import { LoginScreen } from './src/components/auth/LoginScreen';
+import { auth } from './firebase';
+import globalStyles from './src/const/globalStyle';
 
-export default function App() {
+const Stack = createNativeStackNavigator();
 
-  const Stack = createNativeStackNavigator() 
+const FontLoader = ({ children }) => {
+  const [fontsLoaded] = useFonts({
+    Broadway: require('./assets/fonts/broadway-normal.ttf'),
+    HongKongLight: require('./assets/fonts/HongKong-Light.otf'),
+    HongKongRegular: require('./assets/fonts/HongKong-Regular.otf')
+  });
 
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName='Landing' screenOptions={{headerShown: false}}>
-        <Stack.Screen name='Landing' component={Landing} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+  return fontsLoaded ? children : null;
+};
+
+class App extends React.Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      loaded: false
+    }
+  }
+
+  componentDidMount(){
+    auth.onAuthStateChanged((user) => {
+      if(!user){
+        this.setState({
+          loggedIn: false,
+          loaded: true,
+        })
+      }else{
+        this.setState({
+          loggedIn: true,
+          loaded: true
+        })
+      }
+    })
+  }
+
+  render() {
+    const {loggedIn, loaded} = this.state
+    if(!loaded){
+      return(
+        <View style={[globalStyles.center, globalStyles.fullScreen]}>
+          <Text>
+            Loading
+          </Text>
+        </View>
+      )
+    }
+
+    if(!loggedIn){
+      return (
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName='Landing' screenOptions={{ headerShown: false }}>
+            <Stack.Screen name='Landing' component={Landing} />
+            <Stack.Screen name='Register' component={RegisterScreen} />
+            <Stack.Screen name='Login' component={LoginScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      );
+    }else{
+      return(
+        <View style={[globalStyles.center, globalStyles.fullScreen]}>
+          <Text>
+            User Logged in
+          </Text>
+        </View>
+      )
+    }
+    
+  }
 }
+
+const AppWithFonts = () => (
+  <FontLoader>
+    <App />
+  </FontLoader>
+);
+
+export default AppWithFonts;

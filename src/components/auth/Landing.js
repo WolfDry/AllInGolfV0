@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, StyleSheet, View, Pressable, Image, ImageBackground } from 'react-native'
-import globalStyles from '../../../assets/globalStyle'
+import globalStyles from '../../const/globalStyle'
 
 export default function Landing({navigation}) {
   return (

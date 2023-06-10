@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import COLORS from '../src/const/colors';
+import COLORS from './colors';
 
 const globalStyles = StyleSheet.create({
   hongkong: {

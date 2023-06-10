@@ -1,12 +1,15 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth'
-import {auth} from '../../firebase.js'
+import {auth, db} from '../../firebase.js'
+import { doc, setDoc } from 'firebase/firestore';
 
 export function RegisterService(pseudo, email, password){
     createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
+    .then(async (userCredential) => {
         // Signed in 
-        const user = userCredential.user;
-        console.log(user)
+        await setDoc(doc(db,'users', auth.currentUser.uid),{
+            pseudo: pseudo,
+            email: email
+        })
     })
     .catch((error) => {
         const errorCode = error.code;

@@ -8,6 +8,13 @@ import { RegisterScreen } from './src/components/auth/RegisterScreen';
 import { LoginScreen } from './src/components/auth/LoginScreen';
 import { auth } from './firebase';
 import globalStyles from './src/const/globalStyle';
+import { Provider } from 'react-redux';
+import {legacy_createStore as createStore, applyMiddleware} from 'redux'
+import rootReducer from './src/components/redux/reducers'
+import thunk from 'redux-thunk'
+import Main from './src/components/main/Main'
+
+const store = createStore(rootReducer, applyMiddleware(thunk))
 
 const Stack = createNativeStackNavigator();
 
@@ -69,11 +76,7 @@ class App extends React.Component {
       );
     }else{
       return(
-        <View style={[globalStyles.center, globalStyles.fullScreen]}>
-          <Text>
-            User Logged in
-          </Text>
-        </View>
+        <Main/>
       )
     }
     
@@ -81,9 +84,11 @@ class App extends React.Component {
 }
 
 const AppWithFonts = () => (
-  <FontLoader>
-    <App />
-  </FontLoader>
+  <Provider store={store}>
+    <FontLoader>
+      <App />
+    </FontLoader>
+  </Provider>
 );
 
 export default AppWithFonts;

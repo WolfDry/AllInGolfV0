@@ -3,20 +3,19 @@ import { useFonts } from 'expo-font';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { View, Text } from 'react-native';
-import Landing from './src/components/auth/Landing';
-import { RegisterScreen } from './src/components/auth/RegisterScreen';
-import { LoginScreen } from './src/components/auth/LoginScreen';
 import { auth } from './firebase';
 import globalStyles from './src/const/globalStyle';
 import { Provider } from 'react-redux';
 import {legacy_createStore as createStore, applyMiddleware} from 'redux'
 import rootReducer from './src/components/redux/reducers'
 import thunk from 'redux-thunk'
-import Main from './src/components/main/Main'
+import Main from './src/components/main/MainNavigator'
+import AuthNavigation from './src/components/navigation/AuthNavigation';
+import BadgeScreen from './src/components/main/BadgeScreen';
 
 const store = createStore(rootReducer, applyMiddleware(thunk))
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator()
 
 const FontLoader = ({ children }) => {
   const [fontsLoaded] = useFonts({
@@ -66,17 +65,16 @@ class App extends React.Component {
 
     if(!loggedIn){
       return (
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName='Landing' screenOptions={{ headerShown: false }}>
-            <Stack.Screen name='Landing' component={Landing} />
-            <Stack.Screen name='Register' component={RegisterScreen} />
-            <Stack.Screen name='Login' component={LoginScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>
+        <AuthNavigation/>
       );
     }else{
       return(
-        <Main/>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName='Main' screenOptions={{ headerShown: false }}>
+            <Stack.Screen name='Main' component={Main} />
+            <Stack.Screen name='badgeScreen' component={BadgeScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
       )
     }
     

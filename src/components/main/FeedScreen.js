@@ -7,8 +7,6 @@ import Add from '../feed/Add';
 
 export function FeedScreen({navigation}) {
     
-    console.log(navigation)
-
     const comments = [
         {
             id: "155",

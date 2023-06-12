@@ -13,6 +13,7 @@ import Main from './src/components/main/MainNavigator'
 import AuthNavigation from './src/components/navigation/AuthNavigation';
 import BadgeScreen from './src/components/main/BadgeScreen';
 import AddScreen from './src/components/main/AddScreen';
+import SaveScreen from './src/components/main/SaveScreen';
 
 const store = createStore(rootReducer, applyMiddleware(thunk))
 
@@ -74,6 +75,7 @@ class App extends React.Component {
           <Stack.Navigator initialRouteName='Main' screenOptions={{ headerShown: false }}>
             <Stack.Screen name='Main' component={Main} />
             <Stack.Screen name='AddScreen' component={AddScreen} />
+            <Stack.Screen name='SaveScreen' component={SaveScreen} navigation={this.props.navigation} />
           </Stack.Navigator>
         </NavigationContainer>
       )

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Button, StyleSheet, Text, View, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
-export default function AddScreen() {
+export default function AddScreen({navigation}) {
     const [type, setType] = useState(CameraType.back);
     const [camera, setCamera] = useState(null);
     const [image, setImage] = useState(null);
@@ -38,8 +38,6 @@ export default function AddScreen() {
             quality: 1
         })
 
-        console.log(result)
-
         if(!result.canceled){
             setImage(result.assets[0].uri)
         }
@@ -64,6 +62,9 @@ export default function AddScreen() {
             <Button
             title='Choisir une photo dans la galerie'
             onPress={()=>{pickImage()}}/>
+            <Button
+            title='Sauvegarder'
+            onPress={()=>{navigation.navigate('SaveScreen', {image})}}/>
         {image && <Image source={{uri: image}} style={{flex:1}}/>}
       </View>
     );

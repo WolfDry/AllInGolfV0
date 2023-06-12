@@ -12,6 +12,7 @@ import thunk from 'redux-thunk'
 import Main from './src/components/main/MainNavigator'
 import AuthNavigation from './src/components/navigation/AuthNavigation';
 import BadgeScreen from './src/components/main/BadgeScreen';
+import AddScreen from './src/components/main/AddScreen';
 
 const store = createStore(rootReducer, applyMiddleware(thunk))
 
@@ -72,7 +73,7 @@ class App extends React.Component {
         <NavigationContainer>
           <Stack.Navigator initialRouteName='Main' screenOptions={{ headerShown: false }}>
             <Stack.Screen name='Main' component={Main} />
-            <Stack.Screen name='badgeScreen' component={BadgeScreen} />
+            <Stack.Screen name='AddScreen' component={AddScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       )

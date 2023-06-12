@@ -31,19 +31,18 @@ export function StatScreen({ navigation }) {
             <View style={[globalStyles.center, globalStyles.fullScreen]}>
                 <LinearGradient style={[globalStyles.center, { flex: 1, padding: 30, width: '75%', borderRadius: 15, marginVertical: 15 }]} colors={[COLORS.white, '#7FC2C1']} start={{ x: 0, y: 1 }} end={{ x: 1, y: 0 }}>
                     <Text style={[globalStyles.hongkong, { marginBottom: 25 }]}>Moyenne de putts par trou</Text>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', width: '100%' }}>
-                        <Svg width="51.35" height="71.422" viewBox="0 0 51.35 71.422">
-                            <Defs>
-                                <ClipPath id="clip-path">
-                                    <Rect width="51.35" height="71.422" fill="none" stroke="#346867" stroke-width="1" />
-                                </ClipPath>
-                            </Defs>
-                            <G clip-path="url(#clip-path)">
-                                <Path d="M20.943,70.874A18.966,18.966,0,0,1,2,51.931a9.43,9.43,0,0,1,9.419-9.42H37.471V31.328h3.3V2H50.8V51.931A18.964,18.964,0,0,1,31.86,70.874Zm-12.657-7.2A17.327,17.327,0,0,0,20.943,69.2H31.86A17.292,17.292,0,0,0,49.132,51.931V44.183H11.419a7.755,7.755,0,0,0-7.492,5.773l-.416,1.575H23.8V53.2H3.655l.231,1.451a17.147,17.147,0,0,0,1.374,4.51l.337.728h9.786v1.671H6.329Zm30.856-21.16h9.99V33h-9.99Zm3.3-11.184h6.69V24.942h-6.69Zm0-8.057h6.69V3.671h-6.69Z" transform="translate(-0.726 -0.726)" fill="none" stroke="#346867" stroke-width="1" />
-                                <Path d="M20.943,70.874A18.966,18.966,0,0,1,2,51.931a9.43,9.43,0,0,1,9.419-9.42H37.471V31.328h3.3V2H50.8V51.931A18.964,18.964,0,0,1,31.86,70.874Zm-12.657-7.2A17.327,17.327,0,0,0,20.943,69.2H31.86A17.292,17.292,0,0,0,49.132,51.931V44.183H11.419a7.755,7.755,0,0,0-7.492,5.773l-.416,1.575H23.8V53.2H3.655l.231,1.451a17.147,17.147,0,0,0,1.374,4.51l.337.728h9.786v1.671H6.329Zm30.856-21.16h9.99V33h-9.99Zm3.3-11.184h6.69V24.942h-6.69Zm0-8.057h6.69V3.671h-6.69Z" transform="translate(-0.726 -0.726)" fill="none" stroke="#346867" stroke-miterlimit="10" stroke-width="4" />
-                            </G>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', width: '100%' }}> 
+                        <Svg xmlns="http://www.w3.org/2000/svg"  width="51.35" height="71.422" viewBox="0 0 51.35 71.422">
+                        <Defs>
+                            <ClipPath id="clip-path">
+                            <Rect id="Rectangle_103" data-name="Rectangle 103" width="51.35" height="71.422" fill="none" stroke="#346867" stroke-width="1"/>
+                            </ClipPath>
+                        </Defs>
+                        <G id="Groupe_109" data-name="Groupe 109" clip-path="url(#clip-path)">
+                            <Path id="Tracé_175" data-name="Tracé 175" d="M20.943,70.874A18.966,18.966,0,0,1,2,51.931a9.43,9.43,0,0,1,9.419-9.42H37.471V31.328h3.3V2H50.8V51.931A18.964,18.964,0,0,1,31.86,70.874Zm-12.657-7.2A17.327,17.327,0,0,0,20.943,69.2H31.86A17.292,17.292,0,0,0,49.132,51.931V44.183H11.419a7.755,7.755,0,0,0-7.492,5.773l-.416,1.575H23.8V53.2H3.655l.231,1.451a17.147,17.147,0,0,0,1.374,4.51l.337.728h9.786v1.671H6.329Zm30.856-21.16h9.99V33h-9.99Zm3.3-11.184h6.69V24.942h-6.69Zm0-8.057h6.69V3.671h-6.69Z" transform="translate(-0.726 -0.726)" fill="none" stroke="#346867" stroke-width="1"/>
+                            <Path id="Tracé_176" data-name="Tracé 176" d="M20.943,70.874A18.966,18.966,0,0,1,2,51.931a9.43,9.43,0,0,1,9.419-9.42H37.471V31.328h3.3V2H50.8V51.931A18.964,18.964,0,0,1,31.86,70.874Zm-12.657-7.2A17.327,17.327,0,0,0,20.943,69.2H31.86A17.292,17.292,0,0,0,49.132,51.931V44.183H11.419a7.755,7.755,0,0,0-7.492,5.773l-.416,1.575H23.8V53.2H3.655l.231,1.451a17.147,17.147,0,0,0,1.374,4.51l.337.728h9.786v1.671H6.329Zm30.856-21.16h9.99V33h-9.99Zm3.3-11.184h6.69V24.942h-6.69Zm0-8.057h6.69V3.671h-6.69Z" transform="translate(-0.726 -0.726)" fill="none" stroke="#346867" stroke-miterlimit="10" stroke-width="4"/>
+                        </G>
                         </Svg>
-
                         <Text style={[globalStyles.hongkong, { fontSize: 45 }]}>2.4</Text>
                     </View>
                 </LinearGradient>

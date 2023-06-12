@@ -4,21 +4,17 @@ import { bindActionCreators } from 'redux'
 import {fetchUser} from '../redux/actions/index'
 import { CustomTabBarButton } from '../navigation/CustomTabBarButton'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import Feed from './FeedScreen'
+import {FeedScreen} from './FeedScreen'
 import { StyleSheet } from 'react-native'
 import COLORS from '../../const/colors'
 import Icon from 'react-native-vector-icons/Ionicons'
-import Profile from './ProfileScreen'
-import { Chat } from './ChatScreen'
+import { ChatScreen } from './ChatScreen'
 import { StatScreen } from './StatScreen'
+import ProfileScreen from './ProfileScreen'
 
 const Tab = createBottomTabNavigator()
 
-const EmptyScreen = ()=>{
-    return(null)
-}
-
-export class Main extends Component {
+export class MainNavigator extends Component {
     componentDidMount(){
         this.props.fetchUser()
     }
@@ -36,19 +32,19 @@ export class Main extends Component {
 
                     let iconName
 
-                    if (route.name == "Feed") {
+                    if (route.name == "FeedScreen") {
                         iconName = "home"
                     }
-                    if (route.name == "Stat") {
+                    if (route.name == "StatScreen") {
                         iconName = "stats-chart"
                     }
-                    if (route.name == "Game") {
+                    if (route.name == "GameScreen") {
                         iconName = "golf"
                     }
-                    if (route.name == "Chat") {
+                    if (route.name == "ChatScreen") {
                         iconName = "md-chatbubbles"
                     }
-                    if (route.name == "Profile") {
+                    if (route.name == "ProfileScreen") {
                         iconName = "person"
                     }
 
@@ -56,16 +52,16 @@ export class Main extends Component {
                 }
             }
         )} >
-            <Tab.Screen name="Feed" component={Feed} options={{
+            <Tab.Screen name="FeedScreen" component={FeedScreen} options={{
                 tabBarButton: props => <CustomTabBarButton {...props} />
             }} />
-            <Tab.Screen name="Stat" component={StatScreen} options={{
+            <Tab.Screen name="StatScreen" component={StatScreen} options={{
                 tabBarButton: props => <CustomTabBarButton {...props} />
             }} /> 
-            <Tab.Screen name="Chat" component={Chat} options={{
+            <Tab.Screen name="ChatScreen" component={ChatScreen} options={{
                 tabBarButton: props => <CustomTabBarButton {...props} />
             }} /> 
-            <Tab.Screen name="Profile" component={Profile} options={{
+            <Tab.Screen name="ProfileScreen" component={ProfileScreen} options={{
                 tabBarButton: props => <CustomTabBarButton {...props} />
             }} />
         </Tab.Navigator >
@@ -79,7 +75,7 @@ const mapStateToProps = (store)=>({
 const mapDispatchToProps = (dispatch) => bindActionCreators({fetchUser}, dispatch)
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main)
+export default connect(mapStateToProps, mapDispatchToProps)(MainNavigator)
 
 const styles = StyleSheet.create({
     tabBarStyle: {

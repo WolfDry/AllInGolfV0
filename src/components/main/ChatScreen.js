@@ -1,7 +1,7 @@
 import { StyleSheet, ScrollView, KeyboardAvoidingView, Text } from 'react-native';
 import globalStyles from '../../const/globalStyle';
 
-export function Chat() {
+export function ChatScreen() {
 
     return (
         <KeyboardAvoidingView style={[globalStyles.fullScreen, globalStyles.center]}>

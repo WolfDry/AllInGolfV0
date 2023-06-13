@@ -5,6 +5,9 @@ const globalStyles = StyleSheet.create({
   hongkong: {
     fontFamily: 'HongKongRegular',
   },
+  hongkongLight: {
+    fontFamily: 'HongKongLight',
+  },
   white: {
     color: COLORS.white,
   },

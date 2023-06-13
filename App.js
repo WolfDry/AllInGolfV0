@@ -12,8 +12,8 @@ import thunk from 'redux-thunk'
 import Main from './src/components/main/MainNavigator'
 import AuthNavigation from './src/components/navigation/AuthNavigation';
 import BadgeScreen from './src/components/main/BadgeScreen';
-import AddScreen from './src/components/main/AddScreen';
 import SaveScreen from './src/components/main/SaveScreen';
+import PublicationsScreen from './src/components/main/profile/PublicationsScreen';
 
 const store = createStore(rootReducer, applyMiddleware(thunk))
 
@@ -38,16 +38,16 @@ class App extends React.Component {
   }
 
   componentDidMount(){
-    auth.onAuthStateChanged((user) => {
-      if(!user){
+    auth.onAuthStateChanged(user => {
+      if (!user) {
         this.setState({
           loggedIn: false,
           loaded: true,
         })
-      }else{
+      } else {
         this.setState({
           loggedIn: true,
-          loaded: true
+          loaded: true,
         })
       }
     })
@@ -74,8 +74,9 @@ class App extends React.Component {
         <NavigationContainer>
           <Stack.Navigator initialRouteName='Main' screenOptions={{ headerShown: false }}>
             <Stack.Screen name='Main' component={Main} />
-            <Stack.Screen name='AddScreen' component={AddScreen} />
+            <Stack.Screen name='BadgeScreen' component={BadgeScreen} />
             <Stack.Screen name='SaveScreen' component={SaveScreen} navigation={this.props.navigation} />
+            <Stack.Screen name='PublicationsScreen' component={PublicationsScreen}  />
           </Stack.Navigator>
         </NavigationContainer>
       )

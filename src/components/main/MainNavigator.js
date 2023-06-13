@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import {fetchUser} from '../redux/actions/index'
+import {fetchUser, fetchUserPosts} from '../redux/actions/index'
 import { CustomTabBarButton } from '../navigation/CustomTabBarButton'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import {FeedScreen} from './FeedScreen'
@@ -10,16 +10,19 @@ import COLORS from '../../const/colors'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { ChatScreen } from './ChatScreen'
 import { StatScreen } from './StatScreen'
-import ProfileScreen from './ProfileScreen'
+import ProfileScreen from './profile/ProfileScreen'
 
 const Tab = createBottomTabNavigator()
 
 export class MainNavigator extends Component {
+
     componentDidMount(){
         this.props.fetchUser()
+        this.props.fetchUserPosts()
     }
+    
   render() {
-    const {currentUser} = this.props
+    const {currentUser, posts} = this.props
     return (
         <Tab.Navigator initialRouteName='Feed' screenOptions={({ route }) => (
             {
@@ -70,9 +73,10 @@ export class MainNavigator extends Component {
 }
 
 const mapStateToProps = (store)=>({
-    currentUser: store.userState.currentUser
+    currentUser: store.userState.currentUser,
+    posts: store.userState.posts
 })
-const mapDispatchToProps = (dispatch) => bindActionCreators({fetchUser}, dispatch)
+const mapDispatchToProps = (dispatch) => bindActionCreators({fetchUser, fetchUserPosts}, dispatch)
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainNavigator)

@@ -5,6 +5,7 @@ import globalStyles from '../../const/globalStyle'
 import Inputs from '../form/Inputs'
 import Button from '../form/Button'
 import { LoginService } from '../../services/LoginService'
+import COLORS from '../../const/colors';
 
 export function LoginScreen({ navigation }) {
 
@@ -63,25 +64,33 @@ export function LoginScreen({ navigation }) {
                             Connecte toi
                         </Text>
                     </View>
-                    <View style={[globalStyles.center, { flex: 3, width: '100%' }]}>
-                        <Inputs
-                            placeholder="Email"
-                            error={errors.email}
-                            onChangeText={text => handleOnchange(text, "email")}
-                            onFocus={() => {
-                                handleErrors(null, "email")
-                            }}
-                        />
-                        <Inputs
-                            placeholder="Mot de passe"
-                            error={errors.password}
-                            password
-                            onChangeText={text => handleOnchange(text, "password")}
-                            onFocus={() => {
-                                handleErrors(null, "password")
-                            }}
-                        />
-                        <Button title='Connexion' onPress={validate} />
+                    <View style={[globalStyles.center, { flex: 3, width: '70%' }]}>
+                        <View style={globalStyles.center}>
+                            <View style={{height: 65}}>
+                                <Inputs
+                                    placeholder="Email"
+                                    error={errors.email}
+                                    onChangeText={text => handleOnchange(text, "email")}
+                                    onFocus={() => {
+                                        handleErrors(null, "email")
+                                    }}
+                                />
+                            </View>
+                            <View style={{height: 65, marginTop: 15}}>
+                                <Inputs
+                                    placeholder="Mot de passe"
+                                    error={errors.password}
+                                    password
+                                    onChangeText={text => handleOnchange(text, "password")}
+                                    onFocus={() => {
+                                        handleErrors(null, "password")
+                                    }}
+                                />
+                            </View>
+                        </View>
+                    </View>
+                    <View style={[globalStyles.center, {flex: 1, width: '80%'}]}>
+                        <Button title='Connexion' type={'primary'} color={COLORS.green} onPress={validate} />
                         <Pressable style={[globalStyles.fullScreen, globalStyles.center]}>
                             <Text style={[globalStyles.white, globalStyles.hongkong]}>
                                 Mot de passe oublié ?

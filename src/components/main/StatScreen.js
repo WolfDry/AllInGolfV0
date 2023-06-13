@@ -12,7 +12,7 @@ export function StatScreen({ navigation }) {
             <ImageBackground source={require('../../../assets/img/backgroundStat.png')} resizeMode='cover' style={{ width: '100%' }}>
                 <View style={[styles.header, globalStyles.center,]}>
                     <Pressable style={[globalStyles.center, globalStyles.fullScreen, { borderBottomWidth: 1, borderColor: COLORS.white, borderRightWidth: 0.5 }]}
-                        onPress={() => navigation.navigate('badgeScreen')}
+                        onPress={() => navigation.navigate('BadgeScreen')}
                     >
                         <Text style={[globalStyles.hongkong, { color: COLORS.white, fontSize: 18, paddingBottom: 10 }]}>Badges</Text>
                     </Pressable>

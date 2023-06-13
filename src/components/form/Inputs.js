@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     inputContainer: {
         flexDirection: 'row',
         backgroundColor: COLORS.white,
-        width: '65%',
+        // width: '65%',
         margin: '2%',
         padding: '3%',
         borderRadius: 10,

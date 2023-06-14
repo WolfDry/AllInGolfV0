@@ -1,5 +1,5 @@
 import { StyleSheet, ScrollView, KeyboardAvoidingView, Text } from 'react-native';
-import globalStyles from '../../const/globalStyle';
+import globalStyles from '../../../const/globalStyle';
 
 export function ChatScreen() {
 

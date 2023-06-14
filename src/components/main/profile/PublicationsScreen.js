@@ -1,13 +1,57 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Text, Image, ImageBackground, StyleSheet, ScrollView, FlatList } from "react-native";
 import globalStyles from '../../../const/globalStyle';
 import { Path, Svg } from 'react-native-svg'
 import { connect } from "react-redux";
+import { auth, db } from "../../../../firebase";
+import { doc, getDoc, collection, query, getDocs, orderBy } from "firebase/firestore";
 
 function PublicationsScreen(props) {
+    
+    const [user, setUser] = useState(null)
+    const [posts, setPosts] = useState([])
+    const [isCurrentUser, setIsCurrentUser] = useState(true)
 
-    const {posts} = props
+    const getUser = async (uid) => {
+        const docRef = doc(db, "users", uid)
+        await getDoc(docRef)
+        .then((snapshot)=>{
+            if(snapshot.exists()){
+                console.log(snapshot.data())
+                setUser(snapshot.data())
+            }else{
+                console.log('does not exist')
+            }
+        })
+    }
 
+    const getPosts = async (uid) => {
+        const q = query(collection(db, "posts", uid, 'userPosts'), orderBy("creation", "asc"));
+
+        await getDocs(q)
+        .then((snapshot)=>{
+            let posts = snapshot.docs.map(doc => {
+                const data = doc.data()
+                const id = doc.id
+                return {id, ...data}
+            })
+            setPosts(posts)
+        })
+    }
+
+    useEffect(()=>{
+        const {currentUser, posts} = props
+
+        if(props.route.params.uid == auth.currentUser.uid){
+            setUser(currentUser)
+            setPosts(posts)
+        }else{
+            setIsCurrentUser(false)
+            getUser(props.route.params.uid)
+            getPosts(props.route.params.uid)
+        }
+
+    }, [props.route.params.uid])
   return (
     <View>
         <ImageBackground source={require('../../../../assets/img/backgroundProfile.png')}>
@@ -58,9 +102,17 @@ function PublicationsScreen(props) {
             </View>
         </ImageBackground>
         <View style={globalStyles.center}>
-            <Text style={[globalStyles.hongkongLight, {fontSize: 18, padding: '5%'}]}>
-                Mes publications
-            </Text>
+                {isCurrentUser && 
+                    <Text style={[globalStyles.hongkongLight, {fontSize: 18, padding: '5%'}]}>
+                        Mes publications
+                    </Text>
+                }
+                {
+                    !isCurrentUser && user &&
+                    <Text style={[globalStyles.hongkongLight, {fontSize: 18, padding: '5%'}]}>
+                        Publications de {user.pseudo}
+                    </Text>
+                }
         </View>
         <View>
             <FlatList

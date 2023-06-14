@@ -76,7 +76,15 @@ class App extends React.Component {
             <Stack.Screen name='Main' component={Main} />
             <Stack.Screen name='BadgeScreen' component={BadgeScreen} />
             <Stack.Screen name='SaveScreen' component={SaveScreen} navigation={this.props.navigation} />
-            <Stack.Screen name='PublicationsScreen' component={PublicationsScreen}  />
+            <Stack.Screen name='PublicationsScreen'
+            component={PublicationsScreen}
+            listeners={({navigation})=> ({
+              tabPress: event =>{
+                  event.preventDefault()
+                  navigation.navigate('PublicationsScreen', {uid: auth.currentUser.uid})
+              }
+            })}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       )

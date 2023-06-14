@@ -34,6 +34,8 @@
           "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."
         }
       ]
-    ]
-  }
+    ],
+    "sdkVersion": "48.0.0"
+  },
+  "name": "allingolf"
 }

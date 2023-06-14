@@ -8,6 +8,7 @@ const COLORS = {
     lightRed: "#FF4D4D",
     transparent: 'transparent',
     blue: '#0000ff',
+    background: '#f2f2f2',
 }
 
 export default COLORS

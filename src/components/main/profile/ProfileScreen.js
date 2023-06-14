@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View, Text, Image, Pressable, StyleSheet, ScrollView, ImageBackground } from "react-native";
 import globalStyles from '../../../const/globalStyle'
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import { connect } from "react-redux";
+import COLORS from "../../../const/colors";
+import { auth, db } from "../../../../firebase";
+import { doc, getDoc} from "firebase/firestore";
 
 LocaleConfig.locales['fr'] = {
     monthNames: [
@@ -41,12 +44,37 @@ LocaleConfig.locales['fr'] = {
 
 LocaleConfig.defaultLocale = 'fr';
 
-function ProfileScreen(props, {navigation}) {
-    
-    const {currentUser, posts} = props
+function ProfileScreen(props) {
 
+    const [userPost, setUserPosts] = useState([])
+    const [user, setUser] = useState(null)
     const [selected, setSelected] = useState('')
 
+    const getUser = async (uid) => {
+        const docRef = doc(db, "users", uid)
+        await getDoc(docRef)
+        .then((snapshot)=>{
+            if(snapshot.exists()){
+                setUser(snapshot.data())
+            }else{
+                console.log('does not exist')
+            }
+        })
+    }
+
+    useEffect(()=>{
+        const {currentUser, posts} = props
+
+        if(props.route.params.uid == auth.currentUser.uid){
+            setUser(currentUser)
+            setUserPosts(posts)
+        }else{
+            getUser(props.route.params.uid)
+        }
+
+    }, [props.route.params.uid])
+
+    if(user === null){return <View></View>}
     return (
         <ScrollView style={{ backgroundColor: 'white', marginBottom: 50 }} contentContainerStyle={globalStyles.center} bounces={false}>
             <ImageBackground source={require('../../../../assets/img/backgroundProfile.png')}>
@@ -60,7 +88,7 @@ function ProfileScreen(props, {navigation}) {
                             <View backgroundColor={'white'} style={{ padding: 1, width: '100%' }}></View>
                         </View>
                         <View style={[globalStyles.fullScreen, globalStyles.center]}>
-                            <Pressable onPress={()=>{navigation.navigate('PublicationsScreen')}}>
+                            <Pressable onPress={()=>{props.navigation.navigate('PublicationsScreen', {uid: props.route.params.uid})}}>
                                 <Text style={[globalStyles.white, globalStyles.hongkong, { fontSize: 18, textAlign: 'center' }]}>1</Text>
                                 <Text style={[globalStyles.white, globalStyles.hongkong, { fontSize: 11, textAlign: 'center' }]}>Publication</Text>
                             </Pressable>
@@ -95,12 +123,12 @@ function ProfileScreen(props, {navigation}) {
             <View style={styles.detailsContainer}>
                 <View style={[globalStyles.fullScreen]}>
                     <Text style={[globalStyles.hongkong, { fontSize: 18, marginBottom: 15 }]}>
-                        {currentUser && currentUser.pseudo}
+                        {user && user.pseudo}
                       </Text>
                 </View>
                 <View style={[globalStyles.fullScreen]}>
                     <Text style={[globalStyles.hongkong, { fontSize: 10 }]}>
-                        Biographie de l'utilisateur
+                        Biographie de {user && user.pseudo}
                     </Text>
                 </View>
                 <View style={[globalStyles.fullScreen]}>
@@ -204,7 +232,7 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end',
     },
     button: {
-        backgroundColor: '#3E7B7A',
+        backgroundColor: COLORS.lightGreen,
         padding: '3%',
         borderRadius: 100,
     }

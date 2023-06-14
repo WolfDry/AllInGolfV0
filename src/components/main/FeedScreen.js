@@ -33,7 +33,7 @@ export function FeedScreen({navigation}) {
                     <View style={[globalStyles.center, { flex: 0.5 }]}>
                         <Image style={{ width: 50, height: 50, borderRadius: 100 }} source={require('../../../assets/img/logo-vert.jpg')} />
                     </View>
-                    <View style={[globalStyles.center, globalStyles.fullScreen]}>
+                    <View style={[globalStyles.center, globalStyles.fullScreen, {paddingRight: 20}]}>
                         <Inputs
                             placeholder="Rechercher"
                             search

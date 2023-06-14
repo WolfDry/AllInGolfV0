@@ -8,9 +8,10 @@ import {FeedScreen} from './FeedScreen'
 import { StyleSheet } from 'react-native'
 import COLORS from '../../const/colors'
 import Icon from 'react-native-vector-icons/Ionicons'
-import { ChatScreen } from './ChatScreen'
+import SearchScreen from './chat/SearchScreen'
 import { StatScreen } from './StatScreen'
 import ProfileScreen from './profile/ProfileScreen'
+import { auth } from '../../../firebase'
 
 const Tab = createBottomTabNavigator()
 
@@ -44,7 +45,7 @@ export class MainNavigator extends Component {
                     if (route.name == "GameScreen") {
                         iconName = "golf"
                     }
-                    if (route.name == "ChatScreen") {
+                    if (route.name == "SearchScreen") {
                         iconName = "md-chatbubbles"
                     }
                     if (route.name == "ProfileScreen") {
@@ -61,10 +62,17 @@ export class MainNavigator extends Component {
             <Tab.Screen name="StatScreen" component={StatScreen} options={{
                 tabBarButton: props => <CustomTabBarButton {...props} />
             }} /> 
-            <Tab.Screen name="ChatScreen" component={ChatScreen} options={{
+            <Tab.Screen name="SearchScreen" component={SearchScreen} options={{
                 tabBarButton: props => <CustomTabBarButton {...props} />
             }} /> 
-            <Tab.Screen name="ProfileScreen" component={ProfileScreen} options={{
+            <Tab.Screen name="ProfileScreen" component={ProfileScreen} navigation={this.props.navigation}
+            listeners={({navigation})=> ({
+                tabPress: event =>{
+                    event.preventDefault()
+                    navigation.navigate('ProfileScreen', {uid: auth.currentUser.uid})
+                }
+            })}
+            options={{
                 tabBarButton: props => <CustomTabBarButton {...props} />
             }} />
         </Tab.Navigator >

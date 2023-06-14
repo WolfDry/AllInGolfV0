@@ -5,7 +5,8 @@ import { Calendar, LocaleConfig } from 'react-native-calendars';
 import { connect } from "react-redux";
 import COLORS from "../../../const/colors";
 import { auth, db } from "../../../../firebase";
-import { doc, getDoc} from "firebase/firestore";
+import { doc, getDoc, setDoc, deleteDoc} from "firebase/firestore";
+import {strRandom} from '../../../services/RandomService'
 
 LocaleConfig.locales['fr'] = {
     monthNames: [
@@ -49,6 +50,7 @@ function ProfileScreen(props) {
     const [userPost, setUserPosts] = useState([])
     const [user, setUser] = useState(null)
     const [selected, setSelected] = useState('')
+    const [following, setFollowing] = useState(false)
 
     const getUser = async (uid) => {
         const docRef = doc(db, "users", uid)
@@ -72,7 +74,22 @@ function ProfileScreen(props) {
             getUser(props.route.params.uid)
         }
 
-    }, [props.route.params.uid])
+        if(props.following.indexOf(props.route.params.uid) > -1){
+            setFollowing(true)
+        }else{
+            setFollowing(false)
+        }
+
+    }, [props.route.params.uid, props.following])
+
+    const onFollow = async () => {
+        await setDoc(doc(db,'following', auth.currentUser.uid, 'userFollowing', props.route.params.uid),{})
+    }
+
+    const onUnfollow = async () => {
+        await deleteDoc(doc(db,'following', auth.currentUser.uid, 'userFollowing', props.route.params.uid))
+    }
+
 
     if(user === null){return <View></View>}
     return (
@@ -135,9 +152,24 @@ function ProfileScreen(props) {
                     <Text style={[globalStyles.hongkong, { fontSize: 10 }]}>Paris</Text>
                 </View>
                 <View style={[globalStyles.fullScreen, styles.buttonContainer]}>
-                    <Pressable style={[globalStyles.center, styles.button]}>
-                        <Text style={[globalStyles.hongkong, globalStyles.white, { fontSize: 10 }]}>Modifier le profil</Text>
-                    </Pressable>
+                    {props.route.params.uid !== auth.currentUser.uid ? (
+                        <View>
+                            {!following ? (
+                                <Pressable style={[globalStyles.center, styles.button]} onPress={() => onFollow()}>
+                                    <Text style={[globalStyles.hongkong, globalStyles.white, { fontSize: 10 }]}>Ajouter aux amis</Text>
+                                </Pressable>
+                            ): (
+                                <Pressable style={[globalStyles.center, styles.button]} onPress={() => onUnfollow()}>
+                                    <Text style={[globalStyles.hongkong, globalStyles.white, { fontSize: 10 }]}>Retier des amis</Text>
+                                </Pressable>
+                            )}
+                        </View>
+                    ): (
+                        <Pressable style={[globalStyles.center, styles.button]}>
+                            <Text style={[globalStyles.hongkong, globalStyles.white, { fontSize: 10 }]}>Modifier le profile</Text>
+                        </Pressable>                        
+                    )
+                    }
                 </View>
             </View>
             <View style={styles.badgesContainer}>
@@ -190,7 +222,8 @@ function ProfileScreen(props) {
 
 const mapStateToProps = (store) => ({
   currentUser: store.userState.currentUser,
-  posts: store.userState.posts
+  posts: store.userState.posts,
+  following: store.userState.following,
 })
 
 export default connect(mapStateToProps, null)(ProfileScreen)

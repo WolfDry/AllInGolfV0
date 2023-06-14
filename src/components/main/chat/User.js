@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { View, Image, Text, Pressable, StyleSheet } from 'react-native'
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/Ionicons';
 import COLORS from '../../../const/colors';
 
-export default function User({user}) {
+export default function User({user, follow}) {
 
     const [isPress, setIsPress] = useState(false)
     

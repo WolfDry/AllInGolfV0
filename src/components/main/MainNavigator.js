@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import {fetchUser, fetchUserPosts} from '../redux/actions/index'
+import {fetchUser, fetchUserPosts, fetchUserFollowing} from '../redux/actions/index'
 import { CustomTabBarButton } from '../navigation/CustomTabBarButton'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import {FeedScreen} from './FeedScreen'
@@ -20,6 +20,7 @@ export class MainNavigator extends Component {
     componentDidMount(){
         this.props.fetchUser()
         this.props.fetchUserPosts()
+        this.props.fetchUserFollowing()
     }
     
   render() {
@@ -84,7 +85,7 @@ const mapStateToProps = (store)=>({
     currentUser: store.userState.currentUser,
     posts: store.userState.posts
 })
-const mapDispatchToProps = (dispatch) => bindActionCreators({fetchUser, fetchUserPosts}, dispatch)
+const mapDispatchToProps = (dispatch) => bindActionCreators({fetchUser, fetchUserPosts, fetchUserFollowing}, dispatch)
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainNavigator)

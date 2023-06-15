@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 import COLORS from "../../../const/colors";
 import { auth, db } from "../../../../firebase";
 import { doc, getDoc, setDoc, deleteDoc} from "firebase/firestore";
-import {strRandom} from '../../../services/RandomService'
 
 LocaleConfig.locales['fr'] = {
     monthNames: [
@@ -90,6 +89,9 @@ function ProfileScreen(props) {
         await deleteDoc(doc(db,'following', auth.currentUser.uid, 'userFollowing', props.route.params.uid))
     }
 
+    const logout = () => {
+        auth.signOut()
+    }
 
     if(user === null){return <View></View>}
     return (

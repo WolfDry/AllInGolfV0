@@ -94,7 +94,7 @@ export default function SaveScreen({navigation}) {
 
     const savePostData = async (downloadURL) => {
         // console.log(caption)
-        const currentTime = new Date 
+        const currentTime = Date.now()
         const random = strRandom({
             includeUpperCase: true,
             includeNumbers: true,
@@ -104,7 +104,7 @@ export default function SaveScreen({navigation}) {
         await setDoc(doc(db,'posts', auth.currentUser.uid,'userPosts', random),{
             downloadURL: downloadURL,
             caption: caption,
-            creation: currentTime
+            creation: currentTime,
         }).then((function (){
             navigation.popToTop()
         }))

@@ -4,7 +4,7 @@ import globalStyles from '../../const/globalStyle';
 import COLORS from '../../const/colors';
 import { useState } from 'react';
 
-export default function Post({ userName, bio, initialComments }) {
+export default function Post({ userName, bio, initialComments, img }) {
 
     const [isPress, setIsPress] = useState(false)
 
@@ -18,7 +18,7 @@ export default function Post({ userName, bio, initialComments }) {
     })
 
     return (
-        <>
+        <View style={[globalStyles.fullScreen]}>
             <View style={[globalStyles.center, globalStyles.fullScreen]}>
                 <View style={[globalStyles.fullScreen, { flexDirection: 'row', paddingVertical: '4%' }]}>
                     <View style={{ justifyContent: 'center', padding: '3%' }}>
@@ -29,7 +29,7 @@ export default function Post({ userName, bio, initialComments }) {
                     </View>
                 </View>
                 <View style={[globalStyles.center, { flex: 1, width: '100%', height: 325, borderWidth: 1 }]}>
-                    <Image style={{ width: '100%', height: '100%' }} source={require('../../../assets/img/post.png')} />
+                    <Image style={{ width: '100%', height: '100%' }} source={{uri: img}} />
                 </View>
             </View>
             <View style={[globalStyles.fullScreen, { flexDirection: "row" }]}>
@@ -50,6 +50,6 @@ export default function Post({ userName, bio, initialComments }) {
                     {listComments}
                 </View>
             </View>
-        </>
+        </View>
     )
 }

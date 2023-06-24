@@ -6,13 +6,55 @@ import Post from '../feed/Post';
 import COLORS from '../../const/colors';
 import Add from '../feed/Add';
 import { connect } from "react-redux";
+import { collection, getDocs, query } from 'firebase/firestore';
+import { db } from '../../../firebase';
+import { bindActionCreators } from 'redux';
+import { fetchUsersData } from '../redux/actions'
 
 function FeedScreen(props) {
     const [posts, setPosts] = useState([])
 
     useEffect(()=>{
+        function matchUserToComments(posts){
+            for (let i = 0; i < posts.length; i++) {
+                if(posts[i].comments !== undefined){
+                    const post = posts[i]
+                    for (let y = 0; y < post.comments.length; y++) {
+                        const comment = post.comments[y];
+                        if(comment.hasOwnProperty('user')){
+                            continue
+                        }
+                        const user = props.users.find(x => x.uid === comment.creator)
+                        if(user == undefined){
+                            props.fetchUsersData(comment.creator, false)
+                        }else{
+                            comment.user = user
+                        }
+                    }
+                }
+                setPosts(posts)
+            }
+        }
+
+        const getComments = async (posts) => {
+            for (let i = 0; i < posts.length; i++) {
+                const q = query(collection(db, "posts", posts[i].user.uid, 'userPosts', posts[i].id, "comments"));
+    
+                await getDocs(q)
+                .then((snapshot)=>{
+                    let comments = snapshot.docs.map(doc => {
+                        const data = doc.data()
+                        const id = doc.id
+                        return {id, ...data}
+                    })
+                    posts[i].comments = comments
+                    matchUserToComments(posts)
+                })
+            }
+        }
+
         let posts = []
-        if(props.usersLoaded == props.following.length){
+        if(props.usersFollowingLoaded == props.following.length){
             for (let i = 0; i < props.following.length; i++) {
                 const user = props.users.find(el => el.uid === props.following[i])
                 if(user != undefined){
@@ -20,13 +62,9 @@ function FeedScreen(props) {
                 }
             }
 
-            posts.sort(function(x,y){
-                return x.creation - y.creation
-            })
-
-            setPosts(posts)
+            getComments(posts)
         }
-    }, [props.usersLoaded])
+    }, [props.usersFollowingLoaded])
     
     const comments = [
         {
@@ -61,20 +99,17 @@ function FeedScreen(props) {
                     </View>
                 </View>
                 <View style={[globalStyles.center,{ flex: 6, marginBottom: 90, width: '100%' }]}>
-                    {posts && 
+                    {posts &&
                     <FlatList
                         style={globalStyles.fullScreen}
                         numColumns={1}
                         horizontal={false}
                         data={posts}
                         renderItem={({item}) => (
-                            <Post userName={item.user.pseudo} bio={item.caption} initialComments={comments} img={item.downloadURL}/>
+                            <Post userName={item.user.pseudo} bio={item.caption} initialComments={item.comments} img={item.downloadURL} postId={item.id} userId={item.user.uid} navigation={props.navigation}/>
                         )}
                     />
                     }
-                    {/* <Post userName={"Tarpinho69"} bio={"Petite session golf"} initialComments={comments} img={'post.png'} />
-                    <Post userName={"Tarpinho69"} bio={"Petite session golf"} initialComments={comments} />
-                    <Post userName={"Tarpinho69"} bio={"Petite session golf"} initialComments={comments} /> */}
                 </View>
             </View>
         </>
@@ -85,7 +120,8 @@ const mapStateToProps = (store) => ({
     currentUser: store.userState.currentUser,
     following: store.userState.following,
     users: store.usersState.users,
-    usersLoaded: store.usersState.usersLoaded,
+    usersFollowingLoaded: store.usersState.usersFollowingLoaded,
 })
+const mapDispatchToProps = (dispatch) => bindActionCreators({fetchUsersData}, dispatch)
 
-export default connect(mapStateToProps, null)(FeedScreen)  
+export default connect(mapStateToProps, mapDispatchToProps)(FeedScreen)  

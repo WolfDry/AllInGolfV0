@@ -4,18 +4,22 @@ import globalStyles from '../../const/globalStyle';
 import COLORS from '../../const/colors';
 import { useState } from 'react';
 
-export default function Post({ userName, bio, initialComments, img }) {
+export default function Post({ userName, bio, initialComments, img, postId, userId, navigation }) {
 
     const [isPress, setIsPress] = useState(false)
-
-    const listComments = initialComments.map(commentInfo => {
-        return (
-            <View key={commentInfo.id} style={{ flexDirection: 'row', marginHorizontal: '5%' }}>
-                <Text style={{ fontWeight: 'bold' }}>{commentInfo.userName} : </Text>
-                <Text>{commentInfo.content}</Text>
-            </View>
-        )
-    })
+    let listComments
+    if(initialComments !== undefined){
+        listComments = initialComments.map((commentInfo) => {
+            return (
+              <View key={commentInfo.id} style={{ flexDirection: 'row', marginHorizontal: '5%' }}>
+                <Text style={{ fontWeight: 'bold' }}>
+                  {commentInfo.user !== undefined && commentInfo.user.pseudo !== undefined ? commentInfo.user.pseudo : ''}
+                </Text>
+                <Text>{commentInfo.text}</Text>
+              </View>
+            );
+          });
+    }
 
     return (
         <View style={[globalStyles.fullScreen]}>
@@ -45,7 +49,13 @@ export default function Post({ userName, bio, initialComments, img }) {
                     <Text style={{ fontWeight: 'bold' }}>{userName} : </Text>
                     <Text>{bio}</Text>
                 </View>
-                <Text style={{ marginLeft: '5%', marginVertical: '1%' }}>Voir tous les commentaires</Text>
+                    <Text
+                    style={{ marginLeft: '5%', marginVertical: '1%' }}
+                    onPress={()=> navigation.navigate('CommentsScreen',
+                        {postId: postId, uid: userId}
+                    )}>
+                        Voir tous les commentaires
+                    </Text>
                 <View>
                     {listComments}
                 </View>

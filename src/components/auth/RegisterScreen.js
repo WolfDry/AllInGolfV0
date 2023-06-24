@@ -108,7 +108,7 @@ export function RegisterScreen({ navigation }) {
                         </View>
                     </View>
                     <View style={[globalStyles.center, {flex: 1, width: '80%'}]}>
-                        <Button title='Créer son compte' type={'primary'} color={COLORS.green} onPress={validate} />
+                        <Button title='Créer son compte' type={'primary'} onPress={validate} />
                     </View>
                     <View style={[globalStyles.center, globalStyles.fullScreen]}>
                         <Ionicons

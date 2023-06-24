@@ -120,12 +120,12 @@ function ProfileScreen(props) {
                         <View style={[globalStyles.fullScreen, globalStyles.center]}>
                             <Text style={[globalStyles.white, globalStyles.hongkong, { fontSize: 18, textAlign: 'center' }]}>
                                 {
-                                    // userData && userData.friends ? userData.friends.length : '0'
+                                    props.following ? props.following.length : '0'
                                 }
                             </Text>
                             <Text style={[globalStyles.white, globalStyles.hongkong, { fontSize: 11, textAlign: 'center' }]}>
                                 {
-                                    // userData && userData.friends && userData.friends.length > 1 ? 'amies' : 'amie'
+                                    props.following && props.following.length > 1 ? 'amies' : 'amie'
                                 }
                             </Text>
                         </View>

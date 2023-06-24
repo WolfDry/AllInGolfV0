@@ -17,7 +17,7 @@ export default function Friend({lastChat, user}) {
             <Image style={{width: 50, height: 50, borderRadius: 50/2}} source={moduleRequis}/>
         </View>
         <View style={{flex: 1, alignItems: 'flex-start', justifyContent: 'center', paddingHorizontal: 10}}>
-            <Text>{user.pseudo}</Text>
+            <Text style={{fontWeight: 'bold'}}>{user.pseudo}</Text>
             <Text>{lastChat}</Text>
         </View>
         <View style={isPress == true ? styles.deleteBtnPress : styles.deleteBtn}>

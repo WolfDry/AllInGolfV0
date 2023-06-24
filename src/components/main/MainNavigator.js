@@ -12,6 +12,7 @@ import SearchScreen from './chat/SearchScreen'
 import { StatScreen } from './StatScreen'
 import ProfileScreen from './profile/ProfileScreen'
 import { auth } from '../../../firebase'
+import GameScreen from './GameScreen'
 
 const Tab = createBottomTabNavigator()
 
@@ -62,6 +63,9 @@ export class MainNavigator extends Component {
                 tabBarButton: props => <CustomTabBarButton {...props} />
             }} />
             <Tab.Screen name="StatScreen" component={StatScreen} options={{
+                tabBarButton: props => <CustomTabBarButton {...props} />
+            }} /> 
+            <Tab.Screen name="GameScreen" component={GameScreen} options={{
                 tabBarButton: props => <CustomTabBarButton {...props} />
             }} /> 
             <Tab.Screen name="SearchScreen" component={SearchScreen} options={{

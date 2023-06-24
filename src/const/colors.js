@@ -8,6 +8,7 @@ const COLORS = {
     lightRed: "#FF4D4D",
     transparent: 'transparent',
     blue: '#0000ff',
+    yellow: '#FFD388',
     background: '#f2f2f2',
 }
 

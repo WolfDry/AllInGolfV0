@@ -14,6 +14,7 @@ import AuthNavigation from './src/components/navigation/AuthNavigation';
 import BadgeScreen from './src/components/main/BadgeScreen';
 import SaveScreen from './src/components/main/SaveScreen';
 import PublicationsScreen from './src/components/main/profile/PublicationsScreen';
+import CommentsScreen from './src/components/main/CommentsScreen';
 
 const store = createStore(rootReducer, applyMiddleware(thunk))
 
@@ -85,6 +86,7 @@ class App extends React.Component {
               }
             })}
             />
+            <Stack.Screen name='CommentsScreen' component={CommentsScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       )

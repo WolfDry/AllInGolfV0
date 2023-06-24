@@ -39,7 +39,6 @@ export function fetchUserPosts(){
 }
 
 export function fetchUserFollowing(){
-    console.log('fetchUserFollowing')
     return(async (dispatch) => {
         const q = onSnapshot(collection(db, 'following', auth.currentUser.uid, 'userFollowing'), (snapshot) => {
             let following = snapshot.docs.map( doc => {
@@ -48,14 +47,13 @@ export function fetchUserFollowing(){
             })
             dispatch({type: USER_FOLLOWING_STATE_CHANGE, following: following})
             for (let i = 0; i < following.length; i++) {
-                dispatch(fetchUsersData(following[i]))
+                dispatch(fetchUsersData(following[i], true))
             }
         })
     })
 }
 
-export function fetchUsersData(uid){
-    console.log('fetchUsersData()')
+export function fetchUsersData(uid, getPosts){
     return(async (dispatch, getState) => {
         const found = getState().usersState.users.some(el => el.uid === uid)
         if(!found){
@@ -66,20 +64,20 @@ export function fetchUsersData(uid){
                     let user = snapshot.data()
                     user.uid = snapshot.id
                     dispatch({type: USERS_DATA_STATE_CHANGE, user})
-                    console.log('call fetchUserFollowingPosts')
-                    dispatch(fetchUserFollowingPosts(user.uid))
                 }else{
                     console.log('does not exist')
                 }
             })
+            if(getPosts){
+                dispatch(fetchUserFollowingPosts(uid))
+            }
         }
     })
 }
 
 export function fetchUserFollowingPosts(uid){
-    console.log('fetchUserFollowingPosts')
     return(async (dispatch, getState) => {
-        const q = query(collection(db, "posts", uid, 'userPosts'), orderBy("creation", "desc"));
+        const q = query(collection(db, "posts", uid, 'userPosts'), orderBy("creation", "asc"))
 
         await getDocs(q)
         .then((snapshot)=>{

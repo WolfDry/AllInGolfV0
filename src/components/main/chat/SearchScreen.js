@@ -7,6 +7,7 @@ import { G, Path, Svg } from 'react-native-svg'
 import { db} from '../../../../firebase'
 import { collection, query, getDocs, where } from "firebase/firestore";
 import User from './User'
+import Friend from './Friend'
 
 
 
@@ -15,15 +16,28 @@ export default function SearchScreen({navigation}) {
     const [users, setUsers] = useState([])
 
     const fetchUsers = async (search) => {
-        const docRef = query(collection(db, 'users'), where('pseudo', '>=', search))
-        const querySnapshot = await getDocs(docRef)
-        let users = querySnapshot.docs.map(doc => {
-            const data = doc.data()
-            const id = doc.id
-            return {id, ...data}
-        })
-        setUsers(users)
+        if(search !== ''){
+            const docRef = query(collection(db, 'users'), where('pseudo', '>=', search))
+            const querySnapshot = await getDocs(docRef)
+            let users = querySnapshot.docs.map(doc => {
+                const data = doc.data()
+                const id = doc.id
+                return {id, ...data}
+            })
+            setUsers(users)
+        }else{
+            setUsers([])
+        }
     }
+
+    const user = [
+        {
+            pseudo: 'Tom'
+        },
+        {
+            pseudo: 'Marina'
+        },
+    ]
 
   return (
     <View style={[globalStyles.center, globalStyles.fullScreen]}>
@@ -54,18 +68,24 @@ export default function SearchScreen({navigation}) {
             </Text>
         </View>
         <View style={{flex: 3, width: '100%', padding: 20}}>
-        <FlatList
-            numColumns={1}
-            horizontal={false}
-            data={users}
-            renderItem={({ item }) => { 
-                return (
-                <TouchableOpacity onPress={()=> navigation.navigate('ProfileScreen', {uid: item.id})}>
-                    <User user={item} />
-                </TouchableOpacity>
-                );
-            }}
-            />
+            <Friend user={user[0]} lastChat={'Aller ça marche'}/>
+            <Friend user={user[1]} lastChat={'A jeudi'}/>
+            {users && 
+            <View style={{backgroundColor: COLORS.grey, borderRadius: 5, padding: 10}}>
+                <FlatList
+                    numColumns={1}
+                    horizontal={false}
+                    data={users}
+                    renderItem={({ item }) => { 
+                        return (
+                        <TouchableOpacity onPress={()=> navigation.navigate('ProfileScreen', {uid: item.id})}>
+                            <User user={item} />
+                        </TouchableOpacity>
+                        );
+                    }}
+                    />
+            </View>
+            }
         </View>
     </View>
   )

@@ -4,7 +4,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import globalStyles from '../../const/globalStyle'
 import Inputs from '../form/Inputs'
 import Button from '../form/Button'
-import { LoginService } from '../../services/LoginService'
+import { LoginService } from '../../services/AuthService'
 import COLORS from '../../const/colors';
 
 export function LoginScreen({ navigation }) {

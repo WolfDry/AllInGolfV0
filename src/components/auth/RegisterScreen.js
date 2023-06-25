@@ -5,8 +5,7 @@ import globalStyles from '../../const/globalStyle'
 import COLORS from '../../const/colors'
 import Button from '../form/Button'
 import Inputs from '../form/Inputs'
-import { RegisterService } from '../../services/RegisterService'
-import { Colors } from 'react-native/Libraries/NewAppScreen'
+import { RegisterService } from '../../services/AuthService'
 
 
 

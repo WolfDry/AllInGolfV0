@@ -2,7 +2,7 @@ import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'fire
 import {auth, db} from '../../firebase.js'
 import { doc, setDoc } from 'firebase/firestore';
 
-export function AuthService(email, password){
+export function LoginService(email, password){
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
         // Signed in 

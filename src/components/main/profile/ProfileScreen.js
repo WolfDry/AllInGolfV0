@@ -46,9 +46,7 @@ LocaleConfig.defaultLocale = 'fr';
 
 function ProfileScreen(props) {
 
-    const [userPost, setUserPosts] = useState([])
     const [user, setUser] = useState(null)
-    const [selected, setSelected] = useState('')
     const [following, setFollowing] = useState(false)
 
     const getUser = async (uid) => {
